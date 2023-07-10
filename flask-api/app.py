@@ -1,7 +1,11 @@
 import git
 from flask import Flask, jsonify, render_template, url_for, flash, redirect, request
+import pandas as pd
+import sqlalchemy as db
+from sqlalchemy import select
+from sqlalchemy.sql import text as sa_text
 app = Flask(__name__)
-
+engine = db.create_engine('sqlite:///laws.db')
 
 @app.route("/")
 @app.route("/home")
@@ -72,11 +76,24 @@ def get_states():
 @app.route('/states/<state_code>', methods=['GET'])
 def get_state_liquor_laws(state_code):
     # Logic to retrieve and format liquor laws for the given state
-    liquor_laws = {
-        'state_code': state_code,
-        #'laws': 'Liquor laws for {}'.format(state_code)
-    }
-    return jsonify(liquor_laws)
+    columns = ['Location',
+               'Abbreviation',
+               'Alcoholic beverage control state: Beer',
+               'Alcoholic beverage control state: Wine',
+               'Alcoholic beverage control state: Distilled spirits',
+               'Alcohol sale hours: On-premises',
+               'Alcohol sale hours: Off-premises',
+               'Grocery store sales: Beer',
+               'Grocery store sales: Wine',
+               'Grocery store sales: Distilled Spirits',
+               'Age: Purchasing',
+               'Age: Consumption',
+               'Notes: Notes']
+    query_result = None
+    sql = "Select * FROM laws where Abbreviation='" + state_code + "';"
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

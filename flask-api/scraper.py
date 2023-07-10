@@ -25,6 +25,8 @@ for t in table:
     df = pd.read_html(str(t))[0]
     df.columns = df.columns.map(': '.join)
     df.rename(columns={'State federal district  or territory: State federal district  or territory':'Location'}, inplace=True)
+    df.rename(columns={'Notes: Notes': 'Notes'}, inplace=True)
+    
     dfs.append(df)
 combined_df = pd.concat(dfs,axis=0)
 states = [ 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA',
@@ -32,12 +34,13 @@ states = [ 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA',
            'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY',
            'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
            'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'PR']
-combined_df.insert(1,'Abbreviations',states)
+combined_df.insert(1,'Abbreviation',states)
+pprint.pprint(combined_df.columns.tolist())
 print("Resulting DB: \n --------- \n",combined_df)
 #print(combined_df.columns)
 combined_df.to_sql('laws', con=engine, if_exists='replace', index=False)
 
 with engine.connect() as connection:
     query_result = connection.execute(db.text("""SELECT * FROM
-    laws;""")).fetchall()
+    laws where Abbreviation = 'AK'""")).fetchall()
     print("Getting DB: \n --------- \n",pd.DataFrame(query_result))
