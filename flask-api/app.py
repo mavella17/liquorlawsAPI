@@ -63,7 +63,7 @@ def get_states():
     'WA': 'Washington',
     'WI': 'Wisconsin',
     'WV': 'West Virginia',
-    'WY': 'Wyoming'
+    'WY': 'Wyoming',
     'PR': 'Puerto Rico'
 }
     return jsonify(states)
