@@ -89,8 +89,47 @@ def get_state_liquor_laws(state_code):
                'Age: Purchasing',
                'Age: Consumption',
                'Notes: Notes']
-    query_result = None
     sql = "Select * FROM laws where Abbreviation='" + state_code + "';"
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
+
+@app.route('/age', methods =['GET'])
+def age():
+    sql = """Select Abbreviation, "Age: Consumption", "Age: Purchasing" from laws;"""
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
+
+@app.route('/notes', methods =['GET'])
+def notes():
+    sql = "Select Abbreviation, Location, Notes from laws;"
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
+
+@app.route('/grocerysales', methods =['GET'])
+def grocerysales():
+    sql = """Select Abbreviation, Location, "Grocery store sales: Beer",
+               "Grocery store sales: Wine",
+               "Grocery store sales: Distilled Spirits" from laws;"""
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
+
+@app.route('/salehours', methods =['GET'])
+def salehours():
+    sql = """Select Abbreviation, Location, "Alcohol sale hours: On-premises",
+               "Alcohol sale hours: Off-premises" from laws;"""
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
+
+@app.route('/abc', methods =['GET'])
+def abc():
+    sql = """Select Abbreviation, Location, "Alcoholic beverage control state: Beer",
+               "Alcoholic beverage control state: Wine",
+               "Alcoholic beverage control state: Distilled spirits" from laws;"""
     df = pd.read_sql(sql, con=engine)
     results = df.to_dict('records')
     return jsonify(results)
