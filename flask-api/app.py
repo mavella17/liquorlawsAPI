@@ -14,7 +14,7 @@ def home():
     return render_template('home.html', subtitle='Home Page',
                            text='This is the home page')
 
-
+# gets a list of all laws
 @app.route('/laws', methods =['GET'])
 def laws():
     sql = """Select * from laws;"""
@@ -22,6 +22,7 @@ def laws():
     results = df.to_dict('records')
     return jsonify(results)
 
+# gets a list of all states
 @app.route('/laws/states.json', methods=['GET'])
 def get_states():
     # Logic to retrieve and format the list of states
@@ -82,6 +83,7 @@ def get_states():
     return jsonify(states)
 
 
+# Look up indivdual states
 @app.route('/laws/states/<state_code>.json', methods=['GET'])
 def get_state_liquor_laws(state_code):
     # Logic to retrieve and format liquor laws for the given state
@@ -103,6 +105,8 @@ def get_state_liquor_laws(state_code):
     results = df.to_dict('records')
     return jsonify(results)
 
+
+# gets every states ages
 @app.route('/laws/age.json', methods =['GET'])
 def age():
     sql = """Select Abbreviation, "Age: Consumption", "Age: Purchasing" from laws;"""
@@ -110,6 +114,8 @@ def age():
     results = df.to_dict('records')
     return jsonify(results)
 
+
+# returns all notes from all states
 @app.route('/laws/notes.json', methods =['GET'])
 def notes():
     sql = "Select Abbreviation, Location, Notes from laws;"
@@ -117,6 +123,7 @@ def notes():
     results = df.to_dict('records')
     return jsonify(results)
 
+# grocery sale laws for every state
 @app.route('/laws/grocerysales.json', methods =['GET'])
 def grocerysales():
     sql = """Select Abbreviation, Location, "Grocery store sales: Beer",
@@ -126,6 +133,7 @@ def grocerysales():
     results = df.to_dict('records')
     return jsonify(results)
 
+# sale hours for every state
 @app.route('/laws/salehours.json', methods =['GET'])
 def salehours():
     sql = """Select Abbreviation, Location, "Alcohol sale hours: On-premises",
@@ -135,6 +143,7 @@ def salehours():
     results = df.to_dict('records')
     return jsonify(results)
 
+# alcohol beverage controlled laws for every state
 @app.route('/laws/abc.json', methods =['GET'])
 def abc():
     sql = """Select Abbreviation, Location, "Alcoholic beverage control state: Beer",
@@ -144,7 +153,7 @@ def abc():
     results = df.to_dict('records')
     return jsonify(results)
 
-
+# used with webhooks to update server
 @app.route("/update_server", methods=['POST'])
 def webhook():
     if request.method == 'POST':

@@ -17,9 +17,8 @@ print(response.status_code)
 # parse HTML
 soup = bs(response.content, 'html.parser')
 table = soup.find_all('table', {'class': "wikitable"})
-#print(table)
 
-
+# compile 5 tables from wikipedia
 dfs = []
 for t in table:
     df = pd.read_html(str(t))[0]
