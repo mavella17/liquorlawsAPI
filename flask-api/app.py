@@ -6,6 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.sql import text as sa_text
 app = Flask(__name__)
 engine = db.create_engine('sqlite:///laws.db')
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.route("/")
 @app.route("/home")
