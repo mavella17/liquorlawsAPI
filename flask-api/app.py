@@ -13,7 +13,15 @@ def home():
     return render_template('home.html', subtitle='Home Page',
                            text='This is the home page')
 
-@app.route('/states.json', methods=['GET'])
+
+@app.route('/laws', methods =['GET'])
+def laws():
+    sql = """Select * from laws;"""
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
+
+@app.route('/laws/states.json', methods=['GET'])
 def get_states():
     # Logic to retrieve and format the list of states
     states = {
@@ -73,7 +81,7 @@ def get_states():
     return jsonify(states)
 
 
-@app.route('/states/<state_code>.json', methods=['GET'])
+@app.route('/laws/states/<state_code>.json', methods=['GET'])
 def get_state_liquor_laws(state_code):
     # Logic to retrieve and format liquor laws for the given state
     columns = ['Location',
@@ -94,21 +102,21 @@ def get_state_liquor_laws(state_code):
     results = df.to_dict('records')
     return jsonify(results)
 
-@app.route('/age.json', methods =['GET'])
+@app.route('/laws/age.json', methods =['GET'])
 def age():
     sql = """Select Abbreviation, "Age: Consumption", "Age: Purchasing" from laws;"""
     df = pd.read_sql(sql, con=engine)
     results = df.to_dict('records')
     return jsonify(results)
 
-@app.route('/notes.json', methods =['GET'])
+@app.route('/laws/notes.json', methods =['GET'])
 def notes():
     sql = "Select Abbreviation, Location, Notes from laws;"
     df = pd.read_sql(sql, con=engine)
     results = df.to_dict('records')
     return jsonify(results)
 
-@app.route('/grocerysales.json', methods =['GET'])
+@app.route('/laws/grocerysales.json', methods =['GET'])
 def grocerysales():
     sql = """Select Abbreviation, Location, "Grocery store sales: Beer",
                "Grocery store sales: Wine",
@@ -117,7 +125,7 @@ def grocerysales():
     results = df.to_dict('records')
     return jsonify(results)
 
-@app.route('/salehours.json', methods =['GET'])
+@app.route('/laws/salehours.json', methods =['GET'])
 def salehours():
     sql = """Select Abbreviation, Location, "Alcohol sale hours: On-premises",
                "Alcohol sale hours: Off-premises" from laws;"""
@@ -126,7 +134,7 @@ def salehours():
     results = df.to_dict('records')
     return jsonify(results)
 
-@app.route('/abc.json', methods =['GET'])
+@app.route('/laws/abc.json', methods =['GET'])
 def abc():
     sql = """Select Abbreviation, Location, "Alcoholic beverage control state: Beer",
                "Alcoholic beverage control state: Wine",
