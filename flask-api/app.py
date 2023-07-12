@@ -110,7 +110,7 @@ def get_state_liquor_laws(state_code):
 
 
 # gets every states ages
-@app.route('/laws/age.json', methods=['GET'])
+@app.route('/laws/age', methods=['GET'])
 def age():
     sql = """Select Abbreviation, "Age: Consumption", """
     sql += """"Age: Purchasing" from laws;"""
@@ -119,8 +119,19 @@ def age():
     return jsonify(results)
 
 
+# allows grabbing of age laws for specific state
+@app.route('/laws/age/<state_code>.json', methods=['GET'])
+def age_sc(state_code):
+    sql = """Select Abbreviation, "Age: Consumption", """
+    sql += """"Age: Purchasing" from laws """
+    sql += "where Abbreviation='" + state_code + "';"
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
+
+
 # returns all notes from all states
-@app.route('/laws/notes.json', methods=['GET'])
+@app.route('/laws/notes', methods=['GET'])
 def notes():
     sql = "Select Abbreviation, Location, Notes from laws;"
     df = pd.read_sql(sql, con=engine)
@@ -128,8 +139,18 @@ def notes():
     return jsonify(results)
 
 
+# grab notes for a specific state
+@app.route('/laws/notes/<state_code>.json', methods=['GET'])
+def notes_sc(state_code):
+    sql = "Select Abbreviation, Location, Notes from laws "
+    sql += "where Abbreviation='" + state_code + "';"
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
+
+
 # grocery sale laws for every state
-@app.route('/laws/grocerysales.json', methods=['GET'])
+@app.route('/laws/grocerysales', methods=['GET'])
 def grocerysales():
     sql = """Select Abbreviation, Location, "Grocery store sales: Beer",
                "Grocery store sales: Wine",
@@ -139,24 +160,61 @@ def grocerysales():
     return jsonify(results)
 
 
+# gets grocery sale laws for one state
+@app.route('/laws/grocerysales/<state_code>.json', methods=['GET'])
+def grocerysales_sc(state_code):
+    sql = """Select Abbreviation, Location, "Grocery store sales: Beer",
+               "Grocery store sales: Wine",
+               "Grocery store sales: Distilled Spirits" from laws """
+    sql += "where Abbreviation='" + state_code + "';"
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
+
+
 # sale hours for every state
-@app.route('/laws/salehours.json', methods=['GET'])
+@app.route('/laws/salehours', methods=['GET'])
 def salehours():
     sql = """Select Abbreviation, Location, "Alcohol sale hours: On-premises",
                "Alcohol sale hours: Off-premises" from laws;"""
     df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
 
+
+# sale hours for a single state
+@app.route('/laws/salehours/<state_code>.json', methods=['GET'])
+def salehours_sc(state_code):
+    sql = """Select Abbreviation, Location, "Alcohol sale hours: On-premises",
+               "Alcohol sale hours: Off-premises" from laws """
+    sql += "where Abbreviation='" + state_code + "';"
+    df = pd.read_sql(sql, con=engine)
     results = df.to_dict('records')
     return jsonify(results)
 
 
 # alcohol beverage controlled laws for every state
-@app.route('/laws/abc.json', methods=['GET'])
+@app.route('/laws/abc', methods=['GET'])
 def abc():
-    sql = """Select Abbreviation, Location, "Alcoholic beverage control state: Beer",
+    sql = """Select Abbreviation, Location,
+               "Alcoholic beverage control state: Beer",
                "Alcoholic beverage control state: Wine",
                "Alcoholic beverage control state: Distilled spirits"
                 from laws;"""
+    df = pd.read_sql(sql, con=engine)
+    results = df.to_dict('records')
+    return jsonify(results)
+
+
+# alcohol beverage controlled laws for every state
+@app.route('/laws/abc/<state_code>.json', methods=['GET'])
+def abc_sc(state_code):
+    sql = """Select Abbreviation, Location,
+               "Alcoholic beverage control state: Beer",
+               "Alcoholic beverage control state: Wine",
+               "Alcoholic beverage control state: Distilled spirits"
+                from laws """
+    sql += "where Abbreviation='" + state_code + "';"
     df = pd.read_sql(sql, con=engine)
     results = df.to_dict('records')
     return jsonify(results)
