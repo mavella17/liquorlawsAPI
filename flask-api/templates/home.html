@@ -5,13 +5,65 @@
     <div class="container py-5">
       <h1 class="text-body-emphasis">State List!</h1>
       <p class="col-lg-8 mx-auto lead">
-      Click below to view alaska!!
-      </p><a href="{{ url_for('get_state_liquor_laws', state_code='AK') }}">
+      Click below view the state list
+      </p><a href="{{ url_for('get_states') }}">
       <button class="btn btn-primary px-5 mb-5 button"  type="button">
-      ALASKA!
+      States!
     </button>
     </a>
     </div>
-  </div>
-</div>
+
+    <div class="container py-5">
+      <h1 class="text-body-emphasis">All Laws</h1>
+      <p class="col-lg-8 mx-auto lead">
+      Click below view all laws
+      </p><a href="{{ url_for('laws') }}">
+      <button class="btn btn-primary px-5 mb-5 button"  type="button">
+      ALL
+    </button>
+    </a>
+    </div>
+
+    <div class="container py-5">
+      <h1 class="text-body-emphasis">Georgia Laws</h1>
+      <p class="col-lg-8 mx-auto lead">
+      Click to view GA laws
+      </p><a href="{{ url_for('get_state_liquor_laws', state_code='GA') }}">
+      <button class="btn btn-primary px-5 mb-5 button"  type="button">
+      GA
+    </button>
+    </a>
+    </div>
+
+    <div class="container py-5">
+      <h1 class="text-body-emphasis">Kentucky ABC laws</h1>
+      <p class="col-lg-8 mx-auto lead">
+      Click to see KY ABC laws
+      </p><a href="{{ url_for('abc_sc', state_code='KY')}}">
+      <button class="btn btn-primary px-5 mb-5 button"  type="button">
+      KY
+    </button>
+    </a>
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    </div>
 {% endblock content %}

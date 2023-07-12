@@ -25,8 +25,8 @@ is used with a valid state abbreviation to get all laws of a single state. For e
 ### Age Laws:
 > [http://liquorlawsapi.pythonanywhere.com/laws/age/<state_code>.json](http://liquorlawsapi.pythonanywhere.com/laws/age/<state_code>.json)
 
-is used with a valid state abbreviation to get age laws of a single state. For example, to look up Kentucky, you could use 
-> [http://liquorlawsapi.pythonanywhere.com/laws/age/KY.json](http://liquorlawsapi.pythonanywhere.com/laws/age/KY.json)
+is used with a valid state abbreviation to get age laws of a single state. For example, to look up Maine, you could use 
+> [http://liquorlawsapi.pythonanywhere.com/laws/age/ME.json](http://liquorlawsapi.pythonanywhere.com/laws/age/ME.json)
 
 Alternatively, you can use 
 > [http://liquorlawsapi.pythonanywhere.com/laws/age](http://liquorlawsapi.pythonanywhere.com/laws/age)
