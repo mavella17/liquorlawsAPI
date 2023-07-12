@@ -13,7 +13,7 @@ def home():
     return render_template('home.html', subtitle='Home Page',
                            text='This is the home page')
 
-@app.route('/states', methods=['GET'])
+@app.route('/states.json', methods=['GET'])
 def get_states():
     # Logic to retrieve and format the list of states
     states = {
@@ -73,7 +73,7 @@ def get_states():
     return jsonify(states)
 
 
-@app.route('/states/<state_code>', methods=['GET'])
+@app.route('/states/<state_code>.json', methods=['GET'])
 def get_state_liquor_laws(state_code):
     # Logic to retrieve and format liquor laws for the given state
     columns = ['Location',
@@ -94,21 +94,21 @@ def get_state_liquor_laws(state_code):
     results = df.to_dict('records')
     return jsonify(results)
 
-@app.route('/age', methods =['GET'])
+@app.route('/age.json', methods =['GET'])
 def age():
     sql = """Select Abbreviation, "Age: Consumption", "Age: Purchasing" from laws;"""
     df = pd.read_sql(sql, con=engine)
     results = df.to_dict('records')
     return jsonify(results)
 
-@app.route('/notes', methods =['GET'])
+@app.route('/notes.json', methods =['GET'])
 def notes():
     sql = "Select Abbreviation, Location, Notes from laws;"
     df = pd.read_sql(sql, con=engine)
     results = df.to_dict('records')
     return jsonify(results)
 
-@app.route('/grocerysales', methods =['GET'])
+@app.route('/grocerysales.json', methods =['GET'])
 def grocerysales():
     sql = """Select Abbreviation, Location, "Grocery store sales: Beer",
                "Grocery store sales: Wine",
@@ -117,15 +117,16 @@ def grocerysales():
     results = df.to_dict('records')
     return jsonify(results)
 
-@app.route('/salehours', methods =['GET'])
+@app.route('/salehours.json', methods =['GET'])
 def salehours():
     sql = """Select Abbreviation, Location, "Alcohol sale hours: On-premises",
                "Alcohol sale hours: Off-premises" from laws;"""
     df = pd.read_sql(sql, con=engine)
+    
     results = df.to_dict('records')
     return jsonify(results)
 
-@app.route('/abc', methods =['GET'])
+@app.route('/abc.json', methods =['GET'])
 def abc():
     sql = """Select Abbreviation, Location, "Alcoholic beverage control state: Beer",
                "Alcoholic beverage control state: Wine",
@@ -133,6 +134,17 @@ def abc():
     df = pd.read_sql(sql, con=engine)
     results = df.to_dict('records')
     return jsonify(results)
+
+
+@app.route("/update_server", methods=['POST'])
+def webhook():
+    if request.method == 'POST':
+        repo = git.Repo('/home/liquorlawsAPI/liquorlawsAPI')
+        origin = repo.remotes.origin
+        origin.pull()
+        return 'Updated PythonAnywhere successfully', 200
+    else:
+        return 'Wrong event type', 400
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
