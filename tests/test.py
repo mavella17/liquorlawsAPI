@@ -1,8 +1,9 @@
 import unittest, sys
 import os
 
-# sys.path.append('../workspace/liquorlawsAPI/flask-api') # imports python file from parent directory
-from flask-api.app import app #imports flask app object
+sys.path.append('../workspace/liquorlawsAPI/flask-api') # imports python file from parent directory
+
+from app import app #imports flask app object
 
 class BasicTests(unittest.TestCase):
 
