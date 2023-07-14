@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup as bs
 import requests
 import pandas as pd
 import pprint
+import re
 import sqlalchemy as db
 from sqlalchemy import select
 from sqlalchemy.sql import text as sa_text
@@ -17,7 +18,11 @@ print(response.status_code)
 # parse HTML
 soup = bs(response.content, 'html.parser')
 table = soup.find_all('table', {'class': "wikitable"})
-
+pattern = r'\[\d+\]'
+for t in table:
+    matches = t.find_all(string=re.compile(pattern))
+    for match in matches:
+        match.extract()
 # compile 5 tables from wikipedia
 dfs = []
 for t in table:
