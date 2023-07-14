@@ -29,6 +29,10 @@ def laws():
 # gets a list of all states
 @app.route('/laws/states.json', methods=['GET'])
 def get_states():
+
+
+
+
     # Logic to retrieve and format the list of states
     states = {'AK': 'Alaska',
               'AL': 'Alabama',
