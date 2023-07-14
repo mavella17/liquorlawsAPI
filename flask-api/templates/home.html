@@ -1,9 +1,9 @@
-{% extends "layout.html" %} {% block title %}Liquor Laws App{% endblock %} {% block styles %}
+{% extends "layout.html" %} {% block title %}Liquor Laws API{% endblock %} {% block styles %}
 <link rel="stylesheet" href="./{{ url_for('static', filename= 'style.css')}}"> {% endblock %} {% block content %} <div class="container">
     <h1>Welcome to Liquor Laws</h1>
-    <p>Please enter the U.S state to see their liquor laws:</p>
+    <p class='topbottomspacing'>Select states and laws you wish to view:</p>
     <form>
-        <select name="lawoptions" id="dropdown" style="width:100%">
+        <select name="lawoptions" id="dropdown" class='topbottomspacing' style="width:60%">
             <option value="">All Laws</option>
             <option value="/states">Single State Laws.</option>
             <option value="/age">Age</option>
@@ -12,7 +12,7 @@
             <option value="/abc">ABC Substances</option>
             <option value="/notes">Extra Notes</option>
         </select>
-        <select name="state" id="dropdown" class='topbottomspacing' style="width:100%">
+        <select name="state" id="dropdown" class='topbottomspacing' style="width:60%">
             <option value="">All States</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -67,7 +67,7 @@
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
         </select>
-        <button type="submit">Submit</button>
+        <button type="submit" class='topbottomspacing' style="width:60%">Submit</button>
     </form>
     <div id="resultContainer"></div>
 </div> {% endblock %} {% block scripts %} <script src="{{ url_for('static', filename='app.js') }}">
