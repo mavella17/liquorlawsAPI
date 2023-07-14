@@ -21,11 +21,24 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         }).then(function(response) {
             console.log("Successful async: ", JSON.stringify(response));
-            resultContainer.innerHTML = `
-            <pre style="white-space: pre-wrap; font-family: monospace; padding: 1em; background-color: #f4f4f4;">
-            ${JSON.stringify(response, null, 2)}
-            </pre>
-            `;
+            const propertyNames = Object.keys(response[0]);
+
+        resultContainer.innerHTML = `
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                ${propertyNames.map(propertyName => `<th>${propertyName}</th>`).join('')}
+            </tr>
+        </thead>
+        <tbody>
+            ${response.map(item => `
+                <tr>
+                    ${propertyNames.map(propertyName => `<td style="padding: 8px; text-align: center;">${item[propertyName]}</td>`).join('')}
+                </tr>
+            `).join('')}
+        </tbody>
+    </table>
+`;
             console.log("HERE",lawChoice,state)
             //resultContainer.innerHTML = JSON.stringify(response,null, 4);
         }).catch(function(error) {
